@@ -39,6 +39,7 @@ export default function RootLayout() {
       await insertUser('Test Seller', 'seller@example.com', 'password123', 'seller');
 
       // Insert a test product
+      /*
       await insertProduct(
         1, // Make sure this seller exists!
         'Test Product',
@@ -47,6 +48,7 @@ export default function RootLayout() {
         'This is a test product',
         'Test Category'
       );
+      */
       console.warn('Finished insertProduct function');
 
       // Fetch and log products
