@@ -1,6 +1,6 @@
 // app/profile.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 import { updateUserProfile } from '../database/databaseService';
@@ -24,7 +24,6 @@ export default function ProfileScreen() {
     try {
       await updateUserProfile(user.id, name, email);
       Alert.alert('Success', 'Profile updated successfully.');
-      // Update the Auth Context with the new details
       signIn({ ...user, name, email });
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -32,16 +31,17 @@ export default function ProfileScreen() {
     }
   };
 
+  const viewOrderHistory = () => {
+    // Placeholder: In a full implementation, navigate to an Order History screen
+    Alert.alert('Order History', 'Order history feature not implemented yet.');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
       
       <Text style={styles.label}>Name:</Text>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-      />
+      <TextInput style={styles.input} value={name} onChangeText={setName} />
       
       <Text style={styles.label}>Email:</Text>
       <TextInput
@@ -53,34 +53,23 @@ export default function ProfileScreen() {
       />
       
       <Button title="Update Profile" onPress={handleUpdateProfile} />
-      
       <View style={{ marginVertical: 10 }} />
-      
+      <Button title="View Order History" onPress={viewOrderHistory} />
+      <View style={{ marginVertical: 10 }} />
       <Button title="Sign Out" onPress={() => signOut()} color="#dc3545" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff'
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 24,
-    textAlign: 'center'
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 4
-  },
+  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
+  title: { fontSize: 24, marginBottom: 24, textAlign: 'center' },
+  label: { fontSize: 16, marginBottom: 4 },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 4,
     marginBottom: 12,
-    padding: 8
-  }
+    padding: 8,
+  },
 });

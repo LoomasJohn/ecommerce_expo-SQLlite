@@ -1,3 +1,4 @@
+// app/_layout.tsx
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -10,8 +11,8 @@ import { useColorScheme } from 'react-native';
 
 import { setupDatabase } from '../database/database';
 import { insertProduct, getProducts, insertUser } from '../database/databaseService';
-
 import { AuthProvider } from '../context/AuthContext';
+import CartButton from '../components/CartButton'; // Import the CartButton
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -64,17 +65,24 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <Stack>
-          {/* Main app tabs */}
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          {/* Main app tabs screen with a header that includes the CartButton */}
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: true,
+              headerTitle: 'Home',
+              headerRight: () => <CartButton />,
+            }}
+          />
 
           {/* Authentication Screens */}
           <Stack.Screen name="../signin" options={{ title: 'Sign In' }} />
           <Stack.Screen name="../signup" options={{ title: 'Sign Up' }} />
 
           {/* Other App Screens */}
-          <Stack.Screen name="/productDetails" options={{ title: 'Product Details' }} />
-          <Stack.Screen name="/cart" options={{ title: 'Cart' }} />
-          <Stack.Screen name="/profile" options={{ title: 'Profile' }} />
+          <Stack.Screen name="../components/productDetails" options={{ title: 'Product Details' }} />
+          <Stack.Screen name="../app/cart" options={{ title: 'Cart' }} />
+          <Stack.Screen name="../app/profile" options={{ title: 'Profile' }} />
 
           <Stack.Screen name="+not-found" />
         </Stack>

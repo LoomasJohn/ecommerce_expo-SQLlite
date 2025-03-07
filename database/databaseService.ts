@@ -1,3 +1,4 @@
+// databaseService.ts
 import { openDatabaseSync } from 'expo-sqlite';
 
 const db = openDatabaseSync('ecommerce.db');
@@ -157,6 +158,16 @@ export const insertCartItem = async (
   await statement.executeAsync([productId, quantity]);
   await statement.finalizeAsync();
   console.warn(`Product with id ${productId} added to cart.`);
+};
+
+// New function to update a cart item's quantity
+export const updateCartItem = async (cartItemId: number, newQuantity: number) => {
+  const statement = await db.prepareAsync(
+    `UPDATE cart SET quantity = ? WHERE id = ?;`
+  );
+  await statement.executeAsync([newQuantity, cartItemId]);
+  await statement.finalizeAsync();
+  console.warn(`Cart item with id ${cartItemId} updated to quantity ${newQuantity}`);
 };
 
 // Function to fetch a product by ID
